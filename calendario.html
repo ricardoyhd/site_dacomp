@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário – DAComp</title>
+<link rel="stylesheet" href="./css/output.css">
+</head>
+
+<body class="bg-slate-50 text-dc-900 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-dc-900 text-white sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="shrink-0">
+      <img src="img/logo-dacomp-header.png" alt="DAComp" class="h-10 w-auto object-contain">
+    </a>
+    <nav class="hidden md:flex gap-8">
+      <a href="index.html" class="py-1 border-b-2 border-transparent">Home</a>
+      <a href="calendario.html" class="py-1 border-b-2 border-white font-bold">Calendário</a>
+      <a href="ouvidoria.html" class="py-1 border-b-2 border-transparent">Ouvidoria</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a id="btn-login" href="login.html" class="bg-white text-dc-900 font-bold rounded-full px-5 py-2 text-sm">Login</a>
+      <button id="btn-menu" aria-label="Menu" class="md:hidden p-2">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="nav-mobile" class="hidden flex-col px-4 pb-3 md:hidden border-t border-white/10">
+    <a href="index.html" class="px-2 py-3">Home</a>
+    <a href="calendario.html" class="px-2 py-3 font-bold">Calendário</a>
+    <a href="ouvidoria.html" class="px-2 py-3">Ouvidoria</a>
+  </nav>
+</header>
+
+<main class="flex-1">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h3 class="flex flex-wrap items-baseline gap-x-3"><span class="text-3xl font-bold">Calendário:</span><span class="text-sm">Confira as datas importantes e atividades no DC e UFSCar</span></h3>
+      <a href="admin.html" class="bg-dc-800 text-white font-bold rounded px-4 py-2 text-sm">+ Publicar evento</a>
+    </div>
+    <div id="calendar" class="mt-6 bg-white border border-slate-300 rounded-xl p-3"></div>
+    <div id="cal-detail" class="mt-4 text-sm"></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dc-900 text-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row sm:justify-between gap-6">
+    <img src="img/logo-dacomp-footer.png" alt="DAComp" class="h-16 w-auto shrink-0 self-start object-contain">
+    <div class="space-y-2 text-sm">
+      <h4 class="font-bold text-base">Contato</h4>
+      <p>dacomp@ufscar.br</p>
+      <p>@dacomp_ufscar</p>
+      <a href="#" class="inline-block bg-dc-800 rounded-full px-5 py-2 font-bold text-xs">Comunidade do DC</a>
+    </div>
+  </div>
+  <div class="bg-black/25 text-center text-xs py-3">© 2026 DAComp - Todos os direitos reservados</div>
+</footer>
+
+<!-- FullCalendar -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales/pt-br.global.min.js"></script>
+
+<script src="js/comum.js"></script>
+<script>
+function mostrarDetalhe(data) {
+  const doDia = eventos().filter(x => x.data === data);
+  $('#cal-detail').innerHTML = doDia.length
+    ? doDia.map(x => `<p class="mb-2"><b>${fmt(x.data)}${x.hora ? ' às ' + esc(x.hora) : ''} – ${esc(x.titulo)}</b>${x.desc ? '<br>' + esc(x.desc) : ''}</p>`).join('')
+    : `Nenhuma atividade em ${fmt(data)}.`;
+}
+
+const calendar = new FullCalendar.Calendar($('#calendar'), {
+  locale: 'pt-br',
+  initialView: 'dayGridMonth',
+  height: 'auto',
+  fixedWeekCount: false,
+  headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
+  events: eventos().map(e => ({
+    id: e.id,
+    title: e.titulo,
+    start: e.hora ? `${e.data}T${e.hora}` : e.data
+  })),
+  dateClick: info => mostrarDetalhe(info.dateStr),
+  eventClick: info => mostrarDetalhe(info.event.startStr.slice(0, 10))
+});
+calendar.render();
+</script>
+</body>
+</html>

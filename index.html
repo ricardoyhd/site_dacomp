@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAComp – Diretório Acadêmico da Computação</title>
+<link rel="stylesheet" href="./css/output.css">
+
+<!-- altura hero CSS - celular: 70% da tela. tablet/desktop: a tela toda menos o header (70px). -->
+<style>
+  .hero-altura { height: 70vh; min-height: 320px; }
+  @media (min-width: 768px) {
+    .hero-altura { height: calc(100vh - 70px); min-height: 500px; }
+  }
+</style>
+</head>
+
+<body class="bg-slate-50 text-dc-900 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-dc-900 text-white sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="shrink-0">
+      <img src="img/logo-dacomp-header.png" alt="DAComp" class="h-10 w-auto object-contain">
+    </a>
+    <nav class="hidden md:flex gap-8">
+      <a href="index.html" class="py-1 border-b-2 border-white font-bold">Home</a>
+      <a href="calendario.html" class="py-1 border-b-2 border-transparent">Calendário</a>
+      <a href="ouvidoria.html" class="py-1 border-b-2 border-transparent">Ouvidoria</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a id="btn-login" href="login.html" class="bg-white text-dc-900 font-bold rounded-full px-5 py-2 text-sm">Login</a>
+      <button id="btn-menu" aria-label="Menu" class="md:hidden p-2">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="nav-mobile" class="hidden flex-col px-4 pb-3 md:hidden border-t border-white/10">
+    <a href="index.html" class="px-2 py-3 font-bold">Home</a>
+    <a href="calendario.html" class="px-2 py-3">Calendário</a>
+    <a href="ouvidoria.html" class="px-2 py-3">Ouvidoria</a>
+  </nav>
+</header>
+
+<main class="flex-1">
+
+  <!-- HERO -->
+  <div class="hero-altura relative bg-dc-800 bg-cover bg-center" style="background-image:url('img/fundo dacomp.png')">
+    <div class="absolute"></div>
+    <div class="relative h-full flex items-center justify-center px-4">
+      <img src="img/logo-dacomp-hero.png" alt="DAComp" class="w-64 sm:w-96 h-auto max-w-full object-contain">
+    </div>
+  </div>
+
+  <!-- MURAL -->
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h3 class="flex flex-wrap items-baseline gap-x-3"><span class="text-3xl font-bold">Mural:</span><span class="text-sm">Mantenha-se atualizado nas atividades do DC</span></h3>
+    <div class="relative mt-4 bg-slate-200 rounded-2xl overflow-hidden h-[260px] sm:h-[360px] lg:h-[420px] shadow-lg">
+      <img id="mural-img" src="" alt="Mural" class="w-full h-full object-cover">
+      <p id="mural-legenda" class="absolute top-0 right-0 max-w-[90%] bg-dc-800 text-white text-sm px-4 py-2 rounded-bl-xl"></p>
+      <button id="mural-prev" aria-label="Anterior" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dc-900 text-white">&lt;</button>
+      <button id="mural-next" aria-label="Próximo" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dc-900 text-white">&gt;</button>
+      <p id="mural-pos" class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-dc-400 text-white text-xs rounded-full px-3 py-1"></p>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dc-900 text-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row sm:justify-between gap-6">
+    <img src="img/logo-dacomp-footer.png" alt="DAComp" class="h-16 w-auto shrink-0 self-start object-contain">
+    <div class="space-y-2 text-sm">
+      <h4 class="font-bold text-base">Contato</h4>
+      <p>dacomp@ufscar.br</p>
+      <p>@dacomp_ufscar</p>
+      <a href="#" class="inline-block bg-dc-800 rounded-full px-5 py-2 font-bold text-xs">Comunidade do DC</a>
+    </div>
+  </div>
+  <div class="bg-black/25 text-center text-xs py-3">© 2026 DAComp - Todos os direitos reservados</div>
+</footer>
+
+<script src="js/comum.js"></script>
+<script>
+
+/* ---------- Mural, colocar as imagens manualmente por enquanto ---------- */
+const MURAL = [
+  { img: 'img/gamenight.png', legenda: 'GAMENIGHT: Preparativos a todo vapor' },
+  { img: 'img/luau.png', legenda: 'LUAU DA COMP: Novo evento de encerramento da SECOMP' },
+  { img: 'img/quimibyte.png', legenda: 'QUIMIBYTE' }
+];
+let mi = 0;
+function showMural(i) {
+  mi = (i + MURAL.length) % MURAL.length;
+  $('#mural-img').src = MURAL[mi].img;
+  $('#mural-legenda').textContent = MURAL[mi].legenda;
+  $('#mural-pos').textContent = (mi + 1) + ' / ' + MURAL.length;
+}
+$('#mural-prev').onclick = () => showMural(mi - 1);
+$('#mural-next').onclick = () => showMural(mi + 1);
+showMural(0);
+</script>
+</body>
+</html>

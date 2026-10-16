@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login – DAComp</title>
+<link rel="stylesheet" href="./css/output.css">
+</head>
+
+<body class="bg-slate-50 text-dc-900 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-dc-900 text-white sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="shrink-0">
+      <img src="img/logo-dacomp-header.png" alt="DAComp" class="h-10 w-auto object-contain">
+    </a>
+    <nav class="hidden md:flex gap-8">
+      <a href="index.html" class="py-1 border-b-2 border-transparent">Home</a>
+      <a href="calendario.html" class="py-1 border-b-2 border-transparent">Calendário</a>
+      <a href="ouvidoria.html" class="py-1 border-b-2 border-transparent">Ouvidoria</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a id="btn-login" href="login.html" class="bg-white text-dc-900 font-bold rounded-full px-5 py-2 text-sm">Login</a>
+      <button id="btn-menu" aria-label="Menu" class="md:hidden p-2">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="nav-mobile" class="hidden flex-col px-4 pb-3 md:hidden border-t border-white/10">
+    <a href="index.html" class="px-2 py-3">Home</a>
+    <a href="calendario.html" class="px-2 py-3">Calendário</a>
+    <a href="ouvidoria.html" class="px-2 py-3">Ouvidoria</a>
+  </nav>
+</header>
+
+<main class="flex-1">
+  <div class="max-w-sm mx-auto px-4 py-12">
+    <h3 class="text-3xl font-bold mb-6">Login</h3>
+    <p id="login-aviso" class="hidden text-sm rounded px-4 py-3 mb-4 bg-dc-100">Faça login para publicar eventos no calendário.</p>
+    <form id="form-login" class="space-y-4">
+      <div>
+        <label for="email" class="block font-bold text-sm mb-1">E-mail</label>
+        <input id="email" type="email" autocomplete="username" class="w-full rounded border border-slate-300 bg-white px-4 py-3">
+      </div>
+      <div>
+        <label for="senha" class="block font-bold text-sm mb-1">Senha</label>
+        <input id="senha" type="password" autocomplete="current-password" class="w-full rounded border border-slate-300 bg-white px-4 py-3">
+      </div>
+      <p id="login-msg" class="hidden text-sm rounded px-4 py-3 bg-red-100 text-red-800"></p>
+      <button type="submit" class="w-full bg-dc-800 text-white font-bold rounded py-3">Entrar</button>
+    </form>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dc-900 text-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row sm:justify-between gap-6">
+    <img src="img/logo-dacomp-footer.png" alt="DAComp" class="h-16 w-auto shrink-0 self-start object-contain">
+    <div class="space-y-2 text-sm">
+      <h4 class="font-bold text-base">Contato</h4>
+      <p>dacomp@ufscar.br</p>
+      <p>@dacomp_ufscar</p>
+      <a href="#" class="inline-block bg-dc-800 rounded-full px-5 py-2 font-bold text-xs">Comunidade do DC</a>
+    </div>
+  </div>
+  <div class="bg-black/25 text-center text-xs py-3">© 2026 DAComp - Todos os direitos reservados</div>
+</footer>
+
+<script src="js/comum.js"></script>
+<script>
+/* Se veio de outra página, o endereço tem ?next=pagina.html */
+const next = new URLSearchParams(location.search).get('next');
+if (next) $('#login-aviso').classList.remove('hidden');
+
+/* ---------- Login (aceitando qualquer email) ---------- */
+$('#form-login').addEventListener('submit', e => {
+  e.preventDefault();
+  const msg = $('#login-msg');
+  if (!$('#email').value.trim() || !$('#senha').value) {
+    msg.textContent = 'Informe e-mail e senha.'; msg.classList.remove('hidden'); return;
+  }
+  /* trocar autenticação por uma real no back-end */
+  store.set('dc-admin', true);
+  const permitidas = ['admin.html', 'calendario.html'];
+  location.href = permitidas.includes(next) ? next : 'calendario.html';
+});
+</script>
+</body>
+</html>

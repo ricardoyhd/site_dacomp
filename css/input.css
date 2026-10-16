@@ -1,0 +1,11 @@
+@import "tailwindcss";
+ 
+/* cores dacomp */
+@theme {
+  --color-dc-900: #2e1d57;
+  --color-dc-800: #3b2870;
+  --color-dc-700: #4a3484;
+  --color-dc-400: #9b8bd3;
+  --color-dc-100: #ece8fa;
+}
+ 

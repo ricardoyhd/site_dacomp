@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ouvidoria  DAComp</title>
+<link rel="stylesheet" href="./css/output.css">
+</head>
+
+<body class="bg-slate-50 text-dc-900 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-dc-900 text-white sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html" class="shrink-0">
+      <img src="img/logo-dacomp-header.png" alt="DAComp" class="h-10 w-auto object-contain">
+    </a>
+    <nav class="hidden md:flex gap-8">
+      <a href="index.html" class="py-1 border-b-2 border-transparent">Home</a>
+      <a href="calendario.html" class="py-1 border-b-2 border-transparent">Calendário</a>
+      <a href="ouvidoria.html" class="py-1 border-b-2 border-white font-bold">Ouvidoria</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a id="btn-login" href="login.html" class="bg-white text-dc-900 font-bold rounded-full px-5 py-2 text-sm">Login</a>
+      <button id="btn-menu" aria-label="Menu" class="md:hidden p-2">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="nav-mobile" class="hidden flex-col px-4 pb-3 md:hidden border-t border-white/10">
+    <a href="index.html" class="px-2 py-3">Home</a>
+    <a href="calendario.html" class="px-2 py-3">Calendário</a>
+    <a href="ouvidoria.html" class="px-2 py-3 font-bold">Ouvidoria</a>
+  </nav>
+</header>
+
+<main class="flex-1">
+  <div class="min-h-[calc(100vh-70px)] flex flex-col px-4 sm:px-8 pt-6 pb-28 md:pb-8 max-w-5xl mx-auto">
+    <h3 class="flex flex-wrap items-baseline gap-x-3"><span class="text-3xl font-bold">Ouvidoria:</span><span class="text-sm">Envie críticas, sugestões ou denúncias de forma 100% anônima.</span></h3>
+    <form id="form-ouv" novalidate class="flex-1 flex flex-col gap-5 mt-6">
+      <div>
+        <label for="assunto" class="block font-bold text-sm mb-1">Assunto da Mensagem</label>
+        <input id="assunto" type="text" placeholder="Ex: Problema com infraestrutura..." class="w-full rounded border border-slate-300 bg-white px-4 py-3">
+      </div>
+      <div>
+        <label for="categoria" class="block font-bold text-sm mb-1">Categoria</label>
+        <select id="categoria" class="w-full rounded border border-slate-300 bg-white px-4 py-3">
+          <option value="">Selecione...</option><option>Crítica</option><option>Sugestão</option><option>Denúncia</option><option>Infraestrutura</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="flex-1 flex flex-col">
+        <label for="mensagem" class="block font-bold text-sm mb-1">Sua Mensagem (Anônima)</label>
+        <textarea id="mensagem" placeholder="Descreva a situação detalhadamente..." class="flex-1 min-h-45 w-full rounded border border-slate-300 bg-white px-4 py-3 resize-none"></textarea>
+      </div>
+      <p id="form-msg" role="alert" class="hidden text-sm rounded px-4 py-3"></p>
+      <p class="text-xs text-slate-600">Seus dados não estão sendo coletados. O envio é completamente sigiloso.</p>
+      <button type="submit" class="static bottom-4 left-4 right-4 z-30 md:static bg-dc-800 text-white font-bold rounded-lg py-4 shadow-lg md:shadow-none">Enviar Anonimamente</button>
+    </form>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dc-900 text-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row sm:justify-between gap-6">
+    <img src="img/logo-dacomp-footer.png" alt="DAComp" class="h-16 w-auto shrink-0 self-start object-contain">
+    <div class="space-y-2 text-sm">
+      <h4 class="font-bold text-base">Contato</h4>
+      <p>dacomp@ufscar.br</p>
+      <p>@dacomp_ufscar</p>
+      <a href="#" class="inline-block bg-dc-800 rounded-full px-5 py-2 font-bold text-xs">Comunidade do DC</a>
+    </div>
+  </div>
+  <div class="bg-black/25 text-center text-xs py-3">© 2026 DAComp - Todos os direitos reservados</div>
+</footer>
+
+<script src="js/comum.js"></script>
+<script>
+$('#form-ouv').addEventListener('submit', e => {
+  e.preventDefault();
+  const box = $('#form-msg');
+  box.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+  if (!$('#assunto').value.trim() || !$('#categoria').value || $('#mensagem').value.trim().length < 10) {
+    box.classList.add('bg-red-100', 'text-red-800');
+    box.textContent = 'Preencha o assunto, escolha uma categoria e descreva a situação (mínimo 10 caracteres).';
+    return;
+  }
+  box.classList.add('bg-green-100', 'text-green-800');
+  box.textContent = 'Mensagem enviada anonimamente. Obrigado!';
+  e.target.reset();
+});
+</script>
+</body>
+</html>
